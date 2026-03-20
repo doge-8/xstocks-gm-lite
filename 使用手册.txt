@@ -2,7 +2,7 @@
   xStocks 自动签到工具 (带转盘版本)
   制作人: 岳来岳会赚
   关注X: https://x.com/188888_x
-  立享20%积分加成: https://defi.xstocks.fi/points?ref=MYSO6FVZ
+  立享20%积分加成: https://defi.xstocks.fi/points?ref=188888XX
 ========================================
 
 【为什么你需要这个工具？】
@@ -25,10 +25,17 @@ xStocks 的积分机制高度依赖"每天不断签"：
 【首先：注册 xStocks 账号（已注册可跳过）】
 
   使用以下链接注册，立享20%积分加成：
-  https://defi.xstocks.fi/points?ref=MYSO6FVZ
+  https://defi.xstocks.fi/points?ref=188888XX
 
   打开链接 → 连接钱包 → 自动注册完成
+
+  ★★★ 强烈建议使用 Solana 钱包（如 Phantom）注册！★★★
+  因为目前只有 Solana 链支持存入借贷(4x)和组LP(7x)，
+  用 EVM 钱包只能购买持有(1x)，后续想拿更多积分会受限。
   通过此链接注册的用户，所有积分永久额外+20%！
+
+  ※ 注册后别忘了在页面上绑定你的 Telegram 账户，可以再多 10% 积分加成！
+    在积分页面找到 "Join @xStocksFi on Telegram" → 加入频道 → 点击 Verify 验证即可。
 
 
 【第一步：配置私钥】

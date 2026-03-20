@@ -37,7 +37,7 @@ const env = Object.fromEntries(
 );
 
 const API = "https://api.backed.fi/xdrop/api/v1/xdrop-user";
-const REFERRAL = "MYSO6FVZ";
+const REFERRAL = "188888XX";
 const RETRY = 3;
 const RETRY_MS = 5000;
 const INTERVAL_H = 1;
@@ -126,24 +126,30 @@ async function run() {
   console.log(`\n[${new Date().toLocaleString("zh-CN")}] 钱包: ${wallet.address}`);
 
   // 注册
+  process.stdout.write("  正在检查注册状态...");
   const user = await retry(async () => {
     const u = await getUser();
     if (u) return u;
+    process.stdout.write("\r  新钱包，正在注册...       ");
     const reg = await register();
-    console.log("  新钱包，注册成功!");
+    process.stdout.write("\r  新钱包，注册成功!         \n");
     return reg;
   }, "注册");
-  if (!user) return;
-  console.log("  已注册");
+  if (!user) { console.log(); return; }
+  process.stdout.write("\r  已注册                     \n");
 
   // 查询状态
+  process.stdout.write("  正在查询账户状态...");
   const db = await retry(getDashboard, "查询");
-  if (!db) return;
+  if (!db) { console.log(); return; }
+  process.stdout.write("\r  查询完成                   \n");
 
   // 转盘
   if (!db.dailySpinMultiplierRevealed) {
+    process.stdout.write("  正在转盘...");
     const boost = await retry(revealBoost, "转盘");
-    if (boost) console.log(`  转盘: ${boost.dailySpinMultiplier}x`);
+    if (boost) process.stdout.write(`\r  转盘: ${boost.dailySpinMultiplier}x              \n`);
+    else process.stdout.write("\r  转盘: 失败                 \n");
   } else {
     console.log(`  转盘: 今日已转 (${db.dailySpinMultiplier}x)`);
   }
@@ -183,7 +189,7 @@ async function main() {
   ------------------------------------------------
     制作人: 岳来岳会赚
     关注X: https://x.com/188888_x
-    立享20%积分加成: https://defi.xstocks.fi/points?ref=MYSO6FVZ
+    立享20%积分加成: https://defi.xstocks.fi/points?ref=188888XX
   ================================================
 `);
   while (true) {

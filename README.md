@@ -4,7 +4,7 @@
 >
 > 关注X: https://x.com/188888_x
 >
-> 立享20%积分加成: https://defi.xstocks.fi/points?ref=MYSO6FVZ
+> 立享20%积分加成: https://defi.xstocks.fi/points?ref=188888XX
 
 ---
 
@@ -25,7 +25,7 @@ xStocks 的积分机制高度依赖**每天不断签**：
 
 使用以下链接注册，**立享20%积分加成**：
 
-👉 https://defi.xstocks.fi/points?ref=MYSO6FVZ
+👉 https://defi.xstocks.fi/points?ref=188888XX
 
 打开链接 → 连接钱包 → 自动注册完成。通过此链接注册的用户，所有积分**永久额外+20%**！
 
@@ -87,7 +87,7 @@ SOL_PRIVATE_KEY=4wBqpZM9xaSh...（一串字母数字）
   ------------------------------------------------
     制作人: 岳来岳会赚
     关注X: https://x.com/188888_x
-    立享20%积分加成: https://defi.xstocks.fi/points?ref=MYSO6FVZ
+    立享20%积分加成: https://defi.xstocks.fi/points?ref=188888XX
   ================================================
 
 [2026/3/20 10:00:00] 钱包: 0x1234...5678

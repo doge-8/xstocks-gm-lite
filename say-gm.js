@@ -43,7 +43,6 @@ const RETRY_MS = 5000;
 const INTERVAL_H = 1;
 const SIGN = {
   REG: "By signing this message, I confirm wallet ownership and register for xPoints",
-  GM: "Say GM",
   SPIN: "Reveal daily spin multiplier",
 };
 
@@ -100,14 +99,6 @@ async function getDashboard() {
   const d = await safeJson(r); return d.success ? d.data : null;
 }
 
-async function sayGm() {
-  const sig = await wallet.signMessage(SIGN.GM);
-  const r = await fetch(`${API}/say-gm`, { method: "POST", headers, body: JSON.stringify({ walletAddress: wallet.address, signature: sig }) });
-  const d = await safeJson(r);
-  if (!d.success) throw new Error(d.error || "签到失败");
-  return d.data;
-}
-
 async function revealBoost() {
   const sig = await wallet.signMessage(SIGN.SPIN);
   const r = await fetch(`${API}/daily-spin-multiplier`, { method: "PUT", headers, body: JSON.stringify({ walletAddress: wallet.address, signature: sig }) });
@@ -154,38 +145,17 @@ async function run() {
     console.log(`  转盘: 今日已转 (${db.dailySpinMultiplier}x)`);
   }
 
-  // 签到
-  if (db.gmClicksRemaining <= 0) {
-    console.log(`  今日已签满，重置: ${countdown(db.nextSnapshotDate)}`);
-    console.log(`  总积分: ${db.totalPoints} | 连签: ${db.boostPeriods || 0}天 | 加成: ${db.xboostMultiplier || 1}x`);
-    return;
-  }
-
-  const total = db.gmClicksRemaining;
-  console.log(`  开始签到，共 ${total} 次`);
-
-  for (let i = 1; i <= total; i++) {
-    const result = await retry(sayGm, `签到${i}`);
-    if (result) {
-      console.log(`  [${i}/${total}] ✓ 积分: ${result.gmPointsBefore} → ${result.gmPointsAfter} | 剩余: ${result.clicksRemaining}`);
-      if (result.clicksRemaining <= 0) break;
-    } else {
-      console.log(`  [${i}/${total}] ✗ 失败`);
-    }
-    if (i < total) await new Promise(r => setTimeout(r, 3000 + Math.random() * 4000));
-  }
-
   // 查询最终状态
   const final = await retry(getDashboard, "查询");
   if (final) {
-    console.log(`\n  完成! 总积分: ${final.totalPoints} | 连签: ${final.boostPeriods || 0}天 | 加成: ${final.xboostMultiplier || 1}x | 重置: ${countdown(final.nextSnapshotDate)}`);
+    console.log(`\n  完成! 总积分: ${final.totalPoints} | 加成: ${final.xboostMultiplier || 1}x | 重置: ${countdown(final.nextSnapshotDate)}`);
   }
 }
 
 async function main() {
   console.log(`
   ================================================
-    xStocks 自动签到 (带转盘版本) | ${chain === "Svm" ? "Solana" : "EVM"}
+    xStocks 自动转盘 | ${chain === "Svm" ? "Solana" : "EVM"}
   ------------------------------------------------
     制作人: 岳来岳会赚
     关注X: https://x.com/188888_x

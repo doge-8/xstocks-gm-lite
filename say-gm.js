@@ -40,7 +40,7 @@ const API = "https://api.backed.fi/xdrop/api/v1/xdrop-user";
 const REFERRAL = "188888XX";
 const RETRY = 3;
 const RETRY_MS = 5000;
-const INTERVAL_H = 1;
+const INTERVAL_H = 2;
 const SIGN = {
   REG: "By signing this message, I confirm wallet ownership and register for xPoints",
   SPIN: "Reveal daily spin multiplier",
@@ -113,6 +113,10 @@ function countdown(date) {
   return `${Math.floor(diff / 3600000)}h${Math.floor((diff % 3600000) / 60000)}m`;
 }
 
+let lastTotalPoints;
+let lastResetDate;
+let todayPoints;
+
 async function run() {
   console.log(`\n[${new Date().toLocaleString("zh-CN")}] 钱包: ${wallet.address}`);
 
@@ -148,7 +152,19 @@ async function run() {
   // 查询最终状态
   const final = await retry(getDashboard, "查询");
   if (final) {
-    console.log(`\n  完成! 总积分: ${final.totalPoints} | 加成: ${final.xboostMultiplier || 1}x | 重置: ${countdown(final.nextSnapshotDate)}`);
+    // 跨过日结点（重置时间变化）→ 今日累计清零
+    if (lastResetDate && final.nextSnapshotDate !== lastResetDate) {
+      todayPoints = 0;
+    }
+    // 累加本轮增量到今日
+    if (lastTotalPoints !== undefined) {
+      const d = final.totalPoints - lastTotalPoints;
+      if (d > 0) todayPoints = (todayPoints || 0) + d;
+    }
+    lastTotalPoints = final.totalPoints;
+    lastResetDate = final.nextSnapshotDate;
+    const todayStr = todayPoints === undefined ? "今日 -" : `今日 +${todayPoints}`;
+    console.log(`\n  完成! 总积分: ${final.totalPoints} | ${todayStr} | 加成: ${final.xboostMultiplier || 1}x | 重置: ${countdown(final.nextSnapshotDate)}`);
   }
 }
 

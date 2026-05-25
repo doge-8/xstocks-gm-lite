@@ -150,7 +150,7 @@ async function run() {
   if (final) {
     const total = Math.round(Number(final.totalPoints) || 0);
     const today = Math.round(Number(final.todayPoints) || 0);
-    const days = final.latestUserSnapshotNumber || 0;
+    const days = final.boostPeriods || 0;
     console.log(`\n  完成! 总积分: ${total} | 今日 +${today} | 连续: ${days}天 | 加成: ${final.xboostMultiplier || 1}x | 重置: ${countdown(final.nextSnapshotDate)}`);
   }
 }

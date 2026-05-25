@@ -160,7 +160,7 @@ async function main() {
     xStocks 自动转盘 | ${chain === "Svm" ? "Solana" : "EVM"}
   ------------------------------------------------
     制作人: 岳来岳会赚
-    关注X: https://x.com/188888_x
+    关注X: https://x.com/x_188888_x
     立享20%积分加成: https://defi.xstocks.fi/points?ref=188888XX
   ================================================
 `);

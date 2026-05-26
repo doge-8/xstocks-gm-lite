@@ -36,7 +36,7 @@ const env = Object.fromEntries(
     .map((l) => { const i = l.indexOf("="); return [l.slice(0, i).trim(), l.slice(i + 1).trim()]; })
 );
 
-const API = "https://api.backed.fi/xdrop-api/api/v1/xdrop-user";
+const API = "https://points-api.xstocks.fi/api/v1/xdrop-user";
 const REFERRAL = "188888XX";
 const RETRY = 3;
 const RETRY_MS = 5000;

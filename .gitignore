@@ -4,3 +4,10 @@ package-lock.json
 .DS_Store
 dist/
 *.zip
+服务器账号密码.md
+*账号*
+*密码*
+*password*
+*secret*
+*.pem
+*.key

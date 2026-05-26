@@ -139,8 +139,17 @@ async function run() {
   if (!db.dailySpinMultiplierRevealed) {
     process.stdout.write("  正在转盘...");
     const boost = await retry(revealBoost, "转盘");
-    if (boost) process.stdout.write(`\r  转盘: ${boost.dailySpinMultiplier}x              \n`);
-    else process.stdout.write("\r  转盘: 失败                 \n");
+    if (boost) {
+      let mult = boost.dailySpinMultiplier;
+      // 部分情况下转盘返回体不带倍数字段，立即重查一次 dashboard 拿正确倍数（只查一次，不循环）
+      if (mult === undefined || mult === null) {
+        const recheck = await retry(getDashboard, "重查转盘");
+        if (recheck) mult = recheck.dailySpinMultiplier;
+      }
+      process.stdout.write(`\r  转盘: ${mult ?? "?"}x              \n`);
+    } else {
+      process.stdout.write("\r  转盘: 失败                 \n");
+    }
   } else {
     console.log(`  转盘: 今日已转 (${db.dailySpinMultiplier}x)`);
   }
